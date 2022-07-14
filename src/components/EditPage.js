@@ -21,13 +21,13 @@ export default function EditPage(props) {
       socket.send(
         JSON.stringify({
           sessionId: id,
-          messageType: "connection",
-          userName: localStorage.userName,
+          event: "connection",
+          username: localStorage.userName,
         })
       );
     };
     socket.onmessage = (event) => {
-      setText(JSON.parse(event.data).text);
+      setText(JSON.parse(event.data).input);
     };
     setSocket(socket);
   }, [id]);
@@ -44,9 +44,9 @@ export default function EditPage(props) {
   function onChange(newValue) {
     socket.send(
       JSON.stringify({
-        text: newValue,
+        input: newValue,
         sessionId: id,
-        messageType: "editorUpdate",
+        event: "editorUpdate",
       })
     );
     setText(newValue);
