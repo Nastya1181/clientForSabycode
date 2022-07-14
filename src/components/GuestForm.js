@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux/es/exports";
 import { setIsAuthenticated } from "../redux/features/authentication/authenticationSlice";
 import { useState } from "react";
 
+
 export default function GuestForm(props) {
   const navigate = useNavigate();
   const [name, setName] = useState();
@@ -16,7 +17,10 @@ export default function GuestForm(props) {
 
   return (
     <>
-      <input
+    <div className="input__content">
+      <h1 className="input__text">Пожалуйста, представьтесь</h1>
+      <input className="guest__input"
+        placeholder="Ваше имя"
         onChange={(event) => {
           setName(event.target.value);
         }}
@@ -24,6 +28,7 @@ export default function GuestForm(props) {
       <button className="login-button" onClick={login}>
         войти
       </button>
+      </div>
     </>
   );
 }

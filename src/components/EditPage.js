@@ -7,6 +7,7 @@ import "ace-builds/src-noconflict/mode-python";
 import { useCallback, useEffect, useState } from "react";
 import "ace-builds/src-noconflict/theme-monokai";
 
+
 export default function EditPage(props) {
   const [socket, setSocket] = useState();
   const [text, setText] = useState("");
@@ -64,6 +65,7 @@ export default function EditPage(props) {
     <>
       {localStorage.userName && (
         <>
+        <div className="buttons">
           <select
             className="select-fontSize"
             id="fontSize"
@@ -81,6 +83,7 @@ export default function EditPage(props) {
             <option value="javascript">javascipt</option>
             <option value="python">python</option>
           </select>
+        </div>
           <AceEditor
             value={text}
             mode={language}
@@ -99,7 +102,7 @@ export default function EditPage(props) {
                 type: "background",
               },
             ]}
-            name="UNIQUE_ID_OF_DIV"
+            name="UNIQUE_ID_OF_DIV"            
             editorProps={{ $blockScrolling: false }}
           />
         </>
