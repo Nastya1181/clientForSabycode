@@ -192,7 +192,7 @@ color: #FFFFFF;
 
 
 .invite-button__text {
-    width: 90px;
+    
     height: 14px;
     font-family: 'Tahoma';
     
@@ -280,4 +280,46 @@ flex-grow: 0;
     border-width: 1px 1px;
     height: 20px;
     width: 280px;
+}
+
+
+.log__name{
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 76px;
+    font-size: 40px;
+}
+.font__header{
+    font-size: 14px;
+    font-weight: 700;
+}
+.table{
+    display: flex;
+    margin: 0 auto;
+    width: 1060px;
+    border-bottom: 2px #3B6F99 solid;
+    font-weight: 400px;
+}
+.table div{
+    padding: 10px; 
+
+}
+.family{
+    width: 500px;
+}
+.begin{
+    width: 110px;
+}
+.named__lang{
+    width: 140px;
+}
+.edit{
+    width: 110px;
+}
+.delete{
+    margin: 0 auto;
+}
+.delete__logo{
+    margin: 0 auto;
+    background-color: white;
 }

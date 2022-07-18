@@ -3,6 +3,8 @@ import AuthPage from './components/AuthPage';
 import EditPage from './components/EditPage'
 import GuestForm from './components/GuestForm';
 import Layout from './components/Layout';
+import Log from "./components/Log";
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         <Route  path=':id' element={<EditPage />}/>
         <Route  path='/authentication' element={<AuthPage />}/>
         <Route path='/guestAuthorization' element={<GuestForm />}></Route>
+        <Route path='/log' element={<Log />}></Route>
         </Route>
     </Routes>
 </Router>
