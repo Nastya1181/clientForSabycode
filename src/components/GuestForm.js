@@ -1,18 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux/es/exports";
-import { setIsAuthenticated } from "../redux/features/authentication/authenticationSlice";
+import { setUserName} from "../redux/features/authentication/authenticationSlice";
 import { useState } from "react";
-
 
 export default function GuestForm(props) {
   const navigate = useNavigate();
   const [name, setName] = useState();
   const dispatch = useDispatch();
 
+
   function login() {
-    localStorage.userName = name;
-    dispatch(setIsAuthenticated(true)); //нужно для перерисовки Header, можно ли как-то обойтись localStorage?
-    navigate(`/${localStorage.sessionId}`);
+    dispatch(setUserName(name)); 
+  /*   localStorage.userName = name; */
+    navigate('/', { replace: true });
   }
 
   return (

@@ -58,7 +58,7 @@ button{cursor: pointer;}
     background: no-repeat url('./imgs/logo.svg'); 
 }
 .main {
-    height: 100vh;
+    height: calc(100vh - 70px);
     background: #FFFFFF;
     overflow-x: hidden;
 }
