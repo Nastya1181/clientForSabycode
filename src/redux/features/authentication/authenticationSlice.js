@@ -4,7 +4,8 @@ import { sabycodeApi } from '../../api/sabycodeApi'
 const initialState = {
     userName: localStorage.getItem('userName') || "",
     accessToken: localStorage.getItem('accessToken') || "",
-    isUserConnected: sessionStorage.getItem('isUserConnected') || ""
+    isUserConnected: sessionStorage.getItem('isUserConnected') || "",
+    closedMeeting: false
   }
 
   export const authenticationSlice = createSlice({
@@ -20,6 +21,9 @@ const initialState = {
       setIsUserConnected: (state, action) => {
         state.isUserConnected = action.payload
       },
+      setClosedMeeting: (state, action) => {
+        state.closedMeeting = action.payload
+      },
       /* logout: () => initialState, */
     },
     extraReducers: (builder) => {
@@ -32,10 +36,11 @@ const initialState = {
     },
   })
   
-  export const { setUserName, setAccessToken, setIsUserConnected } = authenticationSlice.actions;
+  export const { setUserName, setAccessToken, setIsUserConnected, setClosedMeeting } = authenticationSlice.actions;
   
   export default authenticationSlice.reducer;
 
   export const selectUserName = (state) => state.authentication.userName;
   export const selectAccessToken = (state) => state.authentication.accessToken;
   export const selectIsUserConnected = (state) => state.authentication.isUserConnected;
+  export const selectClosedMeeting = (state) => state.authentication.closedMeeting;

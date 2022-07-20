@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux/es/exports";
 import { setUserName} from "../redux/features/authentication/authenticationSlice";
 import { useState } from "react";
@@ -7,12 +7,15 @@ export default function GuestForm(props) {
   const navigate = useNavigate();
   const [name, setName] = useState();
   const dispatch = useDispatch();
-
+  const location = useLocation();
+  console.log(location.state);
+  const from = location.state?.from || "/";
 
   function login() {
     dispatch(setUserName(name)); 
   /*   localStorage.userName = name; */
-    navigate('/', { replace: true });
+  console.log(from);
+  navigate(from, { replace: true });
   }
 
   return (

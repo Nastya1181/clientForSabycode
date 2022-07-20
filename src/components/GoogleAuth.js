@@ -25,7 +25,7 @@ export default function GoogleAuth(props) {
 
       /* localStorage.userName = user.name; */
      /*  localStorage.accessToken = token; */
-      navigate('/', { replace: true });
+     navigate(props.from, { replace: true });
     }}, [isSuccess]);
 
     useEffect(() => {

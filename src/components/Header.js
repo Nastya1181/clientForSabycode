@@ -35,9 +35,9 @@ export default function Header() {
         <LogOutButton />
         </>
       )}
-      {accessToken && <LogButton/>}
+      {/* {accessToken && <LogButton/>} */}
       {accessToken && <CloseButton/>}  
-      {accessToken && <Link to='/log'>Получить сессии</Link>}
+      {accessToken &&  <Link  className="event__log" to='/log'>Журнал событий</Link>}
     </header>
   );
 }
