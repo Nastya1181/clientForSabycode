@@ -3,7 +3,7 @@ import { useSelector } from "react-redux/es/exports";
 import {  selectUserName } from "../redux/features/authentication/authenticationSlice";
 import GoogleAuth from "./GoogleAuth";
 import { useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 export default function AuthPage(props) {
@@ -13,7 +13,7 @@ export default function AuthPage(props) {
     <>
     <div className="auth">
       <div className="auth-header">Аутентификация</div>
-      <GoogleAuth />
+      {/* <GoogleAuth /> */}
       <button className="auth-sbis">
         <div className="auth-sbis__logo"></div>
         <div className="auth-sbis__text">Авторизоваться через СБИС</div>

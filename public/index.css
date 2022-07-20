@@ -209,6 +209,32 @@ flex: none;
 order: 0;
 flex-grow: 0;
 }
+.exit__buttom{
+    height: 40px;
+    background: #3B6F99;
+    float: left;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-left: 20px;
+    color: white;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    width: 55px;
+}
+.event__log{
+    height: 40px;
+    background: #3B6F99;
+    float: left;
+    border-radius: 5px;
+    margin-top: 15px;
+    margin-left: 20px;
+    color: white;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 12px;
+    width: 115px;
+}
 .buttons{
     position: relative;
     float: right;

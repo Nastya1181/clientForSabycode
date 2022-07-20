@@ -27,5 +27,5 @@ export default function LogOutButton(props) {
     }
   }
 
-  return <button onClick={(e) => handleSignOut(e)}>Выйти</button>;
+  return <button className="exit__buttom" onClick={(e) => handleSignOut(e)}>ВЫЙТИ</button>;
 }

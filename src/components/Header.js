@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { useLogoutMutation } from "../redux/api/sabycodeApi";
 import LogOutButton from "./LogOutButton";
+import LogButton from "./LogButton";
+import CloseButton from "./CloseButton";
 export default function Header() {
   const userName = useSelector(selectUserName);
   const initialState = "ПРИГЛАСИТЬ";
@@ -13,8 +15,7 @@ export default function Header() {
     setButtonText(text);
     setTimeout(() => setButtonText(initialState), [1000])
   }
-
-
+ 
   return (
     <header className="header">
       <div className="header__logo__possion">
@@ -34,6 +35,8 @@ export default function Header() {
         <LogOutButton />
         </>
       )}
+      {accessToken && <LogButton/>}
+      {accessToken && <CloseButton/>}  
       {accessToken && <Link to='/log'>Получить сессии</Link>}
     </header>
   );
