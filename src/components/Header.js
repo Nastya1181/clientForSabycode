@@ -1,13 +1,12 @@
-import { selectAccessToken, selectUserName, setAccessToken, setUserName } from "../redux/features/authentication/authenticationSlice";
-import { useDispatch, useSelector } from "react-redux/es/exports";
-import React, { useEffect, useState } from "react"
+import { selectAccessToken, selectCurrentUsers, selectUserName } from "../redux/features/authentication/authenticationSlice";
+import { useSelector } from "react-redux/es/exports";
+import React, {  useState } from "react"
 import { Link } from "react-router-dom";
-import { useLogoutMutation } from "../redux/api/sabycodeApi";
 import LogOutButton from "./LogOutButton";
-import LogButton from "./LogButton";
 import CloseButton from "./CloseButton";
 import Carousel from "./Carousel";
-import Members from "./Members"
+import Member from "./Member"
+
 export default function Header() {
   const userName = useSelector(selectUserName);
   const initialState = "Пригласить";
@@ -17,22 +16,18 @@ export default function Header() {
     setButtonText(text);
     setTimeout(() => setButtonText(initialState), [1000])
   }
-  const [post] = useState([
-    {name:"Иван Иванов"},
-    {name:"Даша Даревич"},
-    {name:"Даша Даревич"},
-    {name:"Даша Даревич"},
-  ])
+
+  const currentUsers = useSelector(selectCurrentUsers);
  
   return (
     <header className="header">
       <div className="header__logo__possion">
         <div className="header__logo"></div>
       </div>
-      <Carousel show={3}>
-        {post.map(post=>
-          <Members post= {post}/>)}
-      </Carousel>
+      {userName && <Carousel show={3}>
+        {currentUsers?.map(user =>
+          <Member name={user} key={user}/>)}
+      </Carousel>}
       {userName && (
         <>
           <button

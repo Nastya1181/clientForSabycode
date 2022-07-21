@@ -5,7 +5,8 @@ const initialState = {
     userName: localStorage.getItem('userName') || "",
     accessToken: localStorage.getItem('accessToken') || "",
     isUserConnected: sessionStorage.getItem('isUserConnected') || "",
-    closedMeeting: false
+    closedMeeting: false,
+    currentUsers: [],
   }
 
   export const authenticationSlice = createSlice({
@@ -24,6 +25,9 @@ const initialState = {
       setClosedMeeting: (state, action) => {
         state.closedMeeting = action.payload
       },
+      setCurrentUsers: (state, action) => {
+        state.currentUsers = action.payload
+      },
       /* logout: () => initialState, */
     },
     extraReducers: (builder) => {
@@ -36,7 +40,7 @@ const initialState = {
     },
   })
   
-  export const { setUserName, setAccessToken, setIsUserConnected, setClosedMeeting } = authenticationSlice.actions;
+  export const { setUserName, setAccessToken, setIsUserConnected, setClosedMeeting, setCurrentUsers } = authenticationSlice.actions;
   
   export default authenticationSlice.reducer;
 
@@ -44,3 +48,4 @@ const initialState = {
   export const selectAccessToken = (state) => state.authentication.accessToken;
   export const selectIsUserConnected = (state) => state.authentication.isUserConnected;
   export const selectClosedMeeting = (state) => state.authentication.closedMeeting;
+  export const selectCurrentUsers = (state) => state.authentication.currentUsers;

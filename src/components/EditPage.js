@@ -11,7 +11,7 @@ import {
   selectAccessToken,
   selectClosedMeeting,
   selectIsUserConnected,
-  selectUserName,
+  setCurrentUsers,
   setIsUserConnected,
 } from "../redux/features/authentication/authenticationSlice";
 import { useAddFileMutation } from "../redux/api/sabycodeApi";
@@ -31,15 +31,11 @@ export default function EditPage(props) {
   const [markers, setMarkers] = useState({});
   const isClosedMeeting = useSelector(selectClosedMeeting);
 
-useEffect(() => {
-  console.log("markersState", markers);
-}, [markers]);
-
   useEffect(() => {
     const addFileAsync = async () => {
       if (accessToken && !isUserConnected) {
         //&& text
-        let res = await addFile({
+        await addFile({
           id: `${id}.txt`,
           user: accessToken,
         }).unwrap();
@@ -50,7 +46,7 @@ useEffect(() => {
   }, [accessToken]); //,text
 
   useEffect(() => {
-    dispatch(setIsUserConnected(false));
+    dispatch(setIsUserConnected(false)); //?Todo заменить на флаг при connection с веб-сокетом (флаг - есть ли уже такой файл)
   }, []);
 
   useEffect(() => {
@@ -59,9 +55,11 @@ useEffect(() => {
     }
   }, [isFileAdded]);
 
-  useEffect(() => {if (isClosedMeeting){
-    closeConnection();
-  }}, [isClosedMeeting]);
+  useEffect(() => {
+    if (isClosedMeeting) {
+      socket.send(JSON.stringify({ sessionId: id, event: "close" }));
+    }
+  }, [isClosedMeeting]);
 
   const memoizedCallback = useCallback(() => {
     const socket = new WebSocket("ws://localhost:5000/");
@@ -84,11 +82,13 @@ useEffect(() => {
           setText(messageJSON.input);
           setLanguage(messageJSON.language);
           if (!messageJSON.abilityToEdit) {
-            socket.close();
-            setIsReadOnly(true);
-          }
+              setIsReadOnly(true);
+              socket.close();
+            }
+          dispatch(setCurrentUsers(messageJSON.users));
           break;
         case "close":
+          console.log('close');
           socket.close();
           setIsReadOnly(true);
           break;
@@ -97,6 +97,12 @@ useEffect(() => {
           break;
         case "languageUpdate":
           languageUpdateHandler(messageJSON);
+          break;
+        case "disconnection":
+          disconnectionHandler(messageJSON);
+          break;
+        default:
+          console.log(messageJSON);
           break;
       }
     };
@@ -107,8 +113,29 @@ useEffect(() => {
     memoizedCallback();
   }, [memoizedCallback, id]);
 
+
+  function markersUpdateHandler(message) {
+    if (message.color !== localStorage.userColor) {
+      console.log("MyMarkersOnMessage", markers);
+      const newMarkers = { ...markers };
+
+      console.log("полученные маркеры", message.markers);
+      console.log("полученный цвет", message.color);
+
+      newMarkers[message.color] = message.markers;
+      setMarkers(newMarkers);
+    }
+  }
+
+  function languageUpdateHandler(message) {
+    setLanguage(message.language);
+  }
+
+  function disconnectionHandler(message) {
+    dispatch(setCurrentUsers(message.users));
+  }
+
   function onChange(newValue) {
-    console.log('hi');
     socket.send(
       JSON.stringify({
         input: newValue,
@@ -134,10 +161,6 @@ useEffect(() => {
     );
   }
 
-  function closeConnection() {
-    socket.send(JSON.stringify({ sessionId: id, event: "close" }));
-  }
-
   function onCursorChange(selection) {
     console.log(selection);
     let cursorMarker = {
@@ -153,46 +176,22 @@ useEffect(() => {
       sessionId: id,
       event: "markersUpdate",
       markers: [cursorMarker],
-      color: localStorage.userColor
-      
+      color: localStorage.userColor,
     };
     console.log(selection.$cursorChanged);
 
-    
-
     if (selection.$cursorChanged) {
-/*       let nMarkers = Object.assign({}, markers);
+      /*       let nMarkers = Object.assign({}, markers);
       nMarkers[localStorage.userColor] =  [cursorMarker];
       setMarkers(nMarkers); */
 
-      console.log('mymarkerChanged', message.markers);
+      console.log("mymarkerChanged", message.markers);
       console.log("отправленные маркеры", message.markers);
       socket.send(JSON.stringify(message));
     }
-
-  }
-
-  function markersUpdateHandler(message) {
-    if (message.color != localStorage.userColor) {
-      console.log('MyMarkersOnMessage', markers);
-      const newMarkers = { ...markers };
-
-      console.log("полученные маркеры", message.markers);
-       console.log("полученный цвет", message.color);
-   
-      newMarkers[message.color] = message.markers;
-      setMarkers(newMarkers);
-    }
-    
-
-  }
-
-  function languageUpdateHandler(message) {
-    setLanguage(message.language);
   }
 
   function onSelectionChange(selection) {
- 
     console.log(selection);
     let message;
     if (selection.anchor.column === selection.cursor.column) {
@@ -205,7 +204,7 @@ useEffect(() => {
         type: "text",
         inFront: true,
       };
-       message = {
+      message = {
         sessionId: id,
         event: "markersUpdate",
         markers: [cursorMarker],
@@ -241,11 +240,9 @@ useEffect(() => {
         markers: [selectionMarker, cursorMarker],
         color: localStorage.userColor,
       };
-
-
     }
     if (selection.$cursorChanged || selection.$anchorChanged) {
-      console.log('mymarkerChanged', message.markers);
+      console.log("mymarkerChanged", message.markers);
       console.log("отправленные маркеры", message.markers);
       socket.send(JSON.stringify(message));
     }
@@ -262,7 +259,6 @@ useEffect(() => {
 
   return (
     <>
-{/*       <button onClick={closeConnection}>CLOSE</button> */}
       <div className="buttons">
         <select
           className="select-fontSize"
@@ -270,8 +266,8 @@ useEffect(() => {
           onChange={(event) => changeFontSize(event)}
         >
           <option value="14">14</option>
-          <option value="15">15</option>
-          <option value="16">16</option>
+          <option value="20">20</option>
+          <option value="25">30</option>
         </select>
         <select
           value={language}
