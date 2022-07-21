@@ -3,6 +3,7 @@ import { useSelector } from "react-redux/es/exports";
 import {  selectUserName } from "../redux/features/authentication/authenticationSlice";
 import GoogleAuth from "./GoogleAuth";
 import { useEffect } from "react";
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 
 export default function AuthPage(props) {
