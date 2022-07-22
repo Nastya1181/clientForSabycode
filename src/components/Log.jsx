@@ -12,26 +12,38 @@ export default function Log(props) {
 /*   localStorage.isUserConnected = false; */
   }, []);
   console.log(sessions);
-
+  function formatDate(date) {
+    let dd = date.getDate();
+    if (dd < 10) dd = '0' + dd;
+    let mm = date.getMonth() + 1;
+    if (mm < 10) mm = '0' + mm;
+    let yy = date.getFullYear() % 100;
+    if (yy < 10) yy = '0' + yy;
+    let zz = date.toTimeString();
+    let zzz = zz.split(' ');
+    let zzzz = zzz[0].split(':');
+    let zzzzz = zzzz[0] + ':' + zzzz[1]
+    return dd + '.' + mm + '.' + yy + ' ' + zzzzz;
+  }
+  // Функция для парсинга даты как на макете, вроде должно работать 
   return (
     <div className="app">
-      <h1 className="log__name">Журнал</h1>
-      <div className="table font__header">
-        <div className="begin">Создано</div>
-        <div className="named__lang">Язык</div>
-        <div className="edit">Редактировано</div>
-        <div className="family">Участники</div>
-        <div className="delete">Удалить</div>
-      </div>
+      <table className="table">
+      <h1 className="log__name">Журнал собраний</h1>
+      <tr className="container container__header"><td className="begin">ДАТА СОЗДАНИЯ</td>
+          <td className="edit">ДАТА ОКОНЧАНИЯ</td>
+          <td className="named__lang">ТЕХНОЛОГИЯ</td>
+          <td className="family">УЧАСТНИКИ</td></tr>
       {sessions?.map(session => 
         <Meeting key={session.file}
           time={session.birthtime}
-          prog={session.language}
           edited={session.updatetime}
+          prog={session.language}
           name={session.users.join(', ')}
           id={session.file}
         />
       )}
+      </table>
     </div>
   );
 }
