@@ -1,0 +1,32 @@
+.user-color_green{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #52AA47;
+}
+.user-color_red{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #DA4AA7;;
+}
+.user-color_purple{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #3B3B9D;;
+}
+.user-color_blue{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #018DF9;;
+}
+.user-color_aqua{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #209D94;;
+}
+
+

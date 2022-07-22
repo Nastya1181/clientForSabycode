@@ -1,7 +1,6 @@
 import React, { useState, useEffect  } from 'react';
 
 
-
 const Carousel = (props) => {
     const {children, show} = props
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -23,9 +22,9 @@ const Carousel = (props) => {
     return (
         <div className="carousel-container">
             <div className="carousel-wrapper">
-                        <button onClick={prev} className="left-arrow">
+                        { currentIndex < (length - show + 1) &&<button onClick={prev} className="left-arrow">
                             &lt;
-                    </button>
+                    </button>}
                     <div className="carousel-content-wrapper"> 
                     <div
                             className={`carousel-content show-${show}`}

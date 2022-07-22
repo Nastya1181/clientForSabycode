@@ -2,7 +2,7 @@
 a,a:visited{text-decoration: none;}
 a:hover{text-decoration: none;}
 button{cursor: pointer;}
-
+*{font-family: 'JetBrains Mono', monospace;}
 .form {
     position: relative;
     height: 100vh;
@@ -11,15 +11,11 @@ button{cursor: pointer;}
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    
 }
-
 .main__input {
     width: 600px;
     height: 600px;
-    
 }
-
 .but {
     width: 167px;
     margin-top: 10px;
@@ -41,7 +37,7 @@ button{cursor: pointer;}
 .header {
     box-sizing: border-box;
     height: 70px;
-    background: #F2F2F2;
+
     border-bottom: 1px solid #DFDFDF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -175,25 +171,21 @@ color: #FFFFFF;
 
 .invite-button {
 /* Кнопка */
-
-
 /* Auto layout */
     float: left;
     display: block;
     gap: 10px;
     margin-left: 60px;
-    margin-top: 15px;
+    margin-top: 16px;
     text-align: center;
     height: 35px;
     background: #F2F2F2;
     background: url("./imgs/kres.svg") left no-repeat;
-    background-position: 0px 10px;
-    width: 115px;
+    background-position: -2px 10px;
+    width: 117px;
 }
 
-
 .invite-button__text {
-    
     height: 14px;
     font-family: 'JetBrains Mono';
     font-style: normal;
@@ -212,7 +204,7 @@ color: #FFFFFF;
 .exit__buttom{
     font-family: 'JetBrains Mono';
     height: 40px;
-    background: #F2F2F2;
+    background: transparent;
     float: left;
     border-radius: 5px;
     margin-top: 15px;
@@ -224,16 +216,16 @@ color: #FFFFFF;
 }
 .event__log{
     height: 14px;
-    background: #F2F2F2;
+    background: transparent;
     float: left;
     border-radius: 5px;
-    margin-top: 15px;
+    margin-top: 25px;
     margin-left: 20px;
     color: #1F4A6C;
     font-style: normal;
     font-weight: 500;
-    font-size: 12px;
-    width: 115px;
+    font-size: 14px;
+    width: 150px;
 }
 
 .buttons{
@@ -311,47 +303,116 @@ color: #FFFFFF;
 }
 
 
+
 .log__name{
-    text-align: center;
-    margin-top: 40px;
-    margin-bottom: 76px;
-    font-size: 40px;
+    margin-top: 100px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    width: 216px;
 }
 .font__header{
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 500;
+    color: #1F4A6C;
 }
 .table{
-    display: flex;
     margin: 0 auto;
-    width: 1060px;
-    border-bottom: 2px #3B6F99 solid;
+    width: 1100px;
     font-weight: 400px;
+    color: #1F4A6C;
+    font-size: 14px;
+    border-collapse:collapse;
+}
+.container{
+    margin: 0 auto;
+    height: 90px;
+    border-left: solid 2px #57768F;
+    border-right: solid 2px #57768F;
+    border-bottom: solid 2px #57768F;
+    position: relative;
+}
+.container:nth-child(2n){
+    background: #FAFAFA;
+}
+.container__header{
+    height: 40px;
+    border-top: solid 2px #57768F;
+    background-color:#FFFFFF !important;
 }
 .table div{
     padding: 10px; 
-
 }
 .family{
     width: 500px;
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 20px;
 }
 .begin{
-    width: 110px;
-}
-.named__lang{
-    width: 140px;
+    width: 160px;
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 20px;
 }
 .edit{
-    width: 110px;
+    width: 160px;
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 20px;
+} 
+.named__lang{
+    width: 170px;
+    text-align: left;
+    box-sizing: border-box;
+    padding-left: 20px;
 }
-.delete{
-    margin: 0 auto;
+.font-weight{
+    font-weight:700;
+}
+.delete__button{
+    position: absolute;
+    right: -120px;
+    top: 30px;
+    background-color: transparent;
+    padding: 5px;
+    padding-left: 34px;
 }
 .delete__logo{
-    margin: 0 auto;
-    background-color: white;
+    position: absolute;
+    left: -35px;
+    top: -6.5px;
 }
-
+.delete__meeting{
+    font-weight: 500;
+    font-size: 14px;
+    background-color: white;
+    color:#D93D3D;
+}
+.delete__button .delete__inside{
+    padding: 0px;
+    position: relative;
+}
+.back__main{
+    width: 168px;
+    font-size: 14px;
+    color: #1F4A6C;
+    background-color: transparent;
+    margin-top: 23px;
+    float: left;
+    margin-left: 30px;
+}
+.create__meeting{
+    font-size: 14px;
+    color: #1F4A6C;
+    margin-top: 23px;
+    margin-left: 86px;
+    background-color: transparent;
+    float: left;
+}
+.create__meeting img{
+    float: left;
+    padding-right: 8px;
+}
 .carousel-container {
     width: 400px;
     display: flex;
