@@ -10,7 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectAccessToken,
   selectClosedMeeting,
+  selectColor,
   selectIsUserConnected,
+  selectUserName,
+  setColor,
   setCurrentUsers,
   setIsUserConnected,
 } from "../redux/features/authentication/authenticationSlice";
@@ -30,6 +33,8 @@ export default function EditPage(props) {
   const [isReadOnly, setIsReadOnly] = useState(false);
   const [markers, setMarkers] = useState({});
   const isClosedMeeting = useSelector(selectClosedMeeting);
+  const color = useSelector(selectColor);
+
 
   useEffect(() => {
     return () => setMarkers([]);
@@ -72,6 +77,7 @@ export default function EditPage(props) {
           sessionId: id,
           event: "connection",
           username: localStorage.userName,
+          color: ['pink','green', 'yellow','purple'],
         })
       );
     };
@@ -85,7 +91,6 @@ export default function EditPage(props) {
           connectionHandler(messageJSON);
           break;
         case "close":
-          console.log("close");
           socket.close();
           setIsReadOnly(true);
           break;
@@ -98,8 +103,10 @@ export default function EditPage(props) {
         case "disconnection":
           disconnectionHandler(messageJSON);
           break;
+        case "colorUpdate":
+          colorUpdateHandler(messageJSON);
+          break;
         default:
-          console.log(messageJSON);
           break;
       }
     };
@@ -110,6 +117,10 @@ export default function EditPage(props) {
     memoizedCallback();
   }, [memoizedCallback, id]);
 
+  function colorUpdateHandler(message) {
+    dispatch(setColor(message.color));
+  }
+
   function connectionHandler(messageJSON) {
     setText(messageJSON.input);
     setLanguage(messageJSON.language);
@@ -117,11 +128,13 @@ export default function EditPage(props) {
       setIsReadOnly(true);
       socket.close();
     }
-    dispatch(setCurrentUsers(messageJSON.users));
+    console.log(messageJSON.users);
+    /* dispatch(setCurrentUsers(messageJSON.users)); */
   }
 
+
   function markersUpdateHandler(message) {
-    console.log("получено", ...message.markers);
+    console.log(message.color);
     setMarkers((markers) => {
       const modified = Object.assign({}, markers);
       modified[message.color] = message.markers;
@@ -164,13 +177,12 @@ export default function EditPage(props) {
   }
 
   function onCursorChange(selection) {
-    console.log(selection);
     let cursorMarker = {
       startRow: selection.cursor.row,
       startCol: selection.cursor.column,
       endRow: selection.cursor.row,
       endCol: selection.cursor.column + 1,
-      className: `user-cursor_${localStorage.userColor}`,
+      className: `user-cursor_${color}`,
       type: "text",
       inFront: true,
     };
@@ -178,16 +190,15 @@ export default function EditPage(props) {
       sessionId: id,
       event: "markersUpdate",
       markers: [cursorMarker],
-      color: localStorage.userColor,
+      color: color,
     };
 
     if (selection.$cursorChanged) {
       const modified = Object.assign({}, markers);
-      modified[localStorage.userColor] = [cursorMarker];
+      modified[color] = [cursorMarker];
       setMarkers(modified);
 
       socket.send(JSON.stringify(message));
-      console.log("отправлено", ...message.markers);
     }
   }
 
@@ -208,7 +219,7 @@ export default function EditPage(props) {
         startCol: selection.cursor.column,
         endRow: selection.cursor.row,
         endCol: selection.cursor.column + 1,
-        className: `user-cursor_${localStorage.userColor}`,
+        className: `user-cursor_${color}`,
         type: "text",
         inFront: true,
       };
@@ -217,7 +228,7 @@ export default function EditPage(props) {
         startCol: start.column,
         endRow: end.row,
         endCol: end.column,
-        className: `user-selection_${localStorage.userColor}`,
+        className: `user-selection_${color}`,
         type: "text",
         inFront: false,
       };
@@ -226,16 +237,15 @@ export default function EditPage(props) {
         sessionId: id,
         event: "markersUpdate",
         markers: [selectionMarker, cursorMarker],
-        color: localStorage.userColor,
+        color: color,
       };
 
       if (selection.$cursorChanged) {
         const modified = Object.assign({}, markers);
-        modified[localStorage.userColor] = [cursorMarker, selectionMarker];
+        modified[color] = [cursorMarker, selectionMarker];
         setMarkers(modified);
 
         socket.send(JSON.stringify(message));
-        console.log("отправлено", ...message.markers);
       }
     }
   }
@@ -251,7 +261,6 @@ export default function EditPage(props) {
 
   return (
     <>
-      <div>{Object.keys(markers).length}</div>
       <div className="buttons">
         <select
           className="select-fontSize"
@@ -287,7 +296,7 @@ export default function EditPage(props) {
         readOnly={isReadOnly}
         markers={getMarkers()}
         name="UNIQUE_ID_OF_DIV"
-        editorProps={{ $blockScrolling: true }}
+        editorProps={{ $blockScrolling: false }}
       />
     </>
   );
