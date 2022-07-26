@@ -6,7 +6,7 @@ const initialState = {
     accessToken: localStorage.getItem('accessToken') || "",
     isUserConnected: sessionStorage.getItem('isUserConnected') || "",
     closedMeeting: false,
-    currentUsers: [],
+   /*  currentUsers: [], */
     color: '',
   }
 
@@ -26,9 +26,9 @@ const initialState = {
       setClosedMeeting: (state, action) => {
         state.closedMeeting = action.payload
       },
-      setCurrentUsers: (state, action) => {
+     /*  setCurrentUsers: (state, action) => {
         state.currentUsers = action.payload
-      },
+      }, */
       setColor: (state, action) => {
         state.color = action.payload
       },
@@ -44,7 +44,7 @@ const initialState = {
     },
   })
   
-  export const { setUserName, setAccessToken, setIsUserConnected, setClosedMeeting, setCurrentUsers, setColor } = authenticationSlice.actions;
+  export const { setUserName, setAccessToken, setIsUserConnected, setClosedMeeting, /* setCurrentUsers, */ setColor } = authenticationSlice.actions;
   
   export default authenticationSlice.reducer;
 
@@ -52,5 +52,5 @@ const initialState = {
   export const selectAccessToken = (state) => state.authentication.accessToken;
   export const selectIsUserConnected = (state) => state.authentication.isUserConnected;
   export const selectClosedMeeting = (state) => state.authentication.closedMeeting;
-  export const selectCurrentUsers = (state) => state.authentication.currentUsers;
+  /* export const selectCurrentUsers = (state) => state.authentication.currentUsers; */
   export const selectColor = (state) => state.authentication.color;

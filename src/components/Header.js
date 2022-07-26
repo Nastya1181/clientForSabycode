@@ -1,4 +1,4 @@
-import { selectAccessToken, selectCurrentUsers, selectUserName } from "../redux/features/authentication/authenticationSlice";
+import { selectAccessToken, selectUserName } from "../redux/features/authentication/authenticationSlice";
 import { useSelector } from "react-redux/es/exports";
 import React, {  useState } from "react"
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import LogOutButton from "./LogOutButton";
 import CloseButton from "./CloseButton";
 import Carousel from "./Carousel";
 import Member from "./Member"
+import { selectCurrentUsers } from "../redux/features/users/usersSlice";
 
 export default function Header() {
   const userName = useSelector(selectUserName);
@@ -18,6 +19,7 @@ export default function Header() {
   }
 
   const currentUsers = useSelector(selectCurrentUsers);
+  console.log('cur', currentUsers);
  
   return (
     <header className="header">
@@ -26,7 +28,7 @@ export default function Header() {
       </div>
       {userName && <Carousel show={3}>
         {currentUsers?.map(user =>
-          <Member name={user} key={user}/>)}
+          <Member name={user.username} key={Date.now() + Math.random()} color={user.color}/>)}
       </Carousel>}
       {userName && (
         <>

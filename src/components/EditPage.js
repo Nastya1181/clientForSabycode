@@ -4,7 +4,7 @@ import "ace-builds/webpack-resolver";
 import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "ace-builds/src-noconflict/theme-textmate";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -12,16 +12,15 @@ import {
   selectClosedMeeting,
   selectColor,
   selectIsUserConnected,
-  selectUserName,
   setColor,
-  setCurrentUsers,
   setIsUserConnected,
 } from "../redux/features/authentication/authenticationSlice";
 import { useAddFileMutation } from "../redux/api/sabycodeApi";
 import "../markers.css";
+import { setCurrentUsers, removeUser } from "../redux/features/users/usersSlice";
 
 export default function EditPage(props) {
-  const [socket, setSocket] = useState();
+  const socket = useRef();
   const [text, setText] = useState("");
   const [language, setLanguage] = useState();
   const [fontSize, setFontSize] = useState(14);
@@ -35,10 +34,6 @@ export default function EditPage(props) {
   const isClosedMeeting = useSelector(selectClosedMeeting);
   const color = useSelector(selectColor);
 
-
-  useEffect(() => {
-    return () => setMarkers([]);
-  }, []);
 
   useEffect(() => {
     const addFileAsync = async () => {
@@ -65,24 +60,25 @@ export default function EditPage(props) {
 
   useEffect(() => {
     if (isClosedMeeting) {
-      socket.send(JSON.stringify({ sessionId: id, event: "close" }));
+      socket.current.send(JSON.stringify({ sessionId: id, event: "close" }));
     }
   }, [isClosedMeeting]);
 
-  const memoizedCallback = useCallback(() => {
-    const socket = new WebSocket("ws://localhost:5000/");
-    socket.onopen = (event) => {
-      socket.send(
+  useEffect(() => {
+    socket.current = new WebSocket("ws://localhost:5000/");
+    socket.current.onopen = (event) => {
+      socket.current.send(
         JSON.stringify({
           sessionId: id,
           event: "connection",
           username: localStorage.userName,
-          color: ['pink','green', 'yellow','purple'],
+          color: ["pink", "green", "yellow", "purple"],
         })
       );
     };
-    socket.onmessage = (event) => {
+    socket.current.onmessage = (event) => {
       const messageJSON = JSON.parse(event.data);
+      console.log(messageJSON);
       switch (messageJSON.event) {
         case "editorUpdate":
           setText(messageJSON.input);
@@ -91,7 +87,7 @@ export default function EditPage(props) {
           connectionHandler(messageJSON);
           break;
         case "close":
-          socket.close();
+          socket.current.close();
           setIsReadOnly(true);
           break;
         case "markersUpdate":
@@ -100,22 +96,31 @@ export default function EditPage(props) {
         case "languageUpdate":
           languageUpdateHandler(messageJSON);
           break;
-        case "disconnection":
-          disconnectionHandler(messageJSON);
-          break;
         case "colorUpdate":
           colorUpdateHandler(messageJSON);
+          break;
+        case "userUpdate":
+          userUpdateHandler(messageJSON);
           break;
         default:
           break;
       }
     };
-    setSocket(socket);
-  }, [id]);
+    const current = socket.current;
 
-  useEffect(() => {
-    memoizedCallback();
-  }, [memoizedCallback, id]);
+    return () => {
+      current.close();
+    };
+  }, []);
+
+  function userUpdateHandler(message) {
+    dispatch(removeUser(message.color));
+    setMarkers((markers) => {
+      const modified = Object.assign({}, markers);
+      modified[message.color] = [];
+      return modified;
+    });
+  }
 
   function colorUpdateHandler(message) {
     dispatch(setColor(message.color));
@@ -126,12 +131,11 @@ export default function EditPage(props) {
     setLanguage(messageJSON.language);
     if (!messageJSON.abilityToEdit) {
       setIsReadOnly(true);
-      socket.close();
+      socket.current.close();
     }
     console.log(messageJSON.users);
-    /* dispatch(setCurrentUsers(messageJSON.users)); */
+    dispatch(setCurrentUsers(messageJSON.users));
   }
-
 
   function markersUpdateHandler(message) {
     console.log(message.color);
@@ -146,12 +150,8 @@ export default function EditPage(props) {
     setLanguage(message.language);
   }
 
-  function disconnectionHandler(message) {
-    dispatch(setCurrentUsers(message.users));
-  }
-
   function onChange(newValue) {
-    socket.send(
+    socket.current.send(
       JSON.stringify({
         input: newValue,
         sessionId: id,
@@ -167,7 +167,7 @@ export default function EditPage(props) {
 
   function changeLanguage(event) {
     setLanguage(event.target.value);
-    socket.send(
+    socket.current.send(
       JSON.stringify({
         sessionId: id,
         event: "languageUpdate",
@@ -198,7 +198,7 @@ export default function EditPage(props) {
       modified[color] = [cursorMarker];
       setMarkers(modified);
 
-      socket.send(JSON.stringify(message));
+      socket.current.send(JSON.stringify(message));
     }
   }
 
@@ -245,7 +245,7 @@ export default function EditPage(props) {
         modified[color] = [cursorMarker, selectionMarker];
         setMarkers(modified);
 
-        socket.send(JSON.stringify(message));
+        socket.current.send(JSON.stringify(message));
       }
     }
   }
@@ -267,6 +267,7 @@ export default function EditPage(props) {
           id="fontSize"
           onChange={(event) => changeFontSize(event)}
         >
+          <option value="12">12</option>
           <option value="14">14</option>
           <option value="20">20</option>
           <option value="25">30</option>
