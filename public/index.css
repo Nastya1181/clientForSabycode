@@ -2,7 +2,7 @@
 a,a:visited{text-decoration: none;}
 a:hover{text-decoration: none;}
 button{cursor: pointer;}
-*{font-family: 'JetBrains Mono', monospace;}
+
 .form {
     position: relative;
     height: 100vh;
@@ -480,6 +480,8 @@ color: #FFFFFF;
 .members{
     display: flex;
 }
+
+
 .circle__user{
     border-radius: 50%;
     border: solid black 1px;
