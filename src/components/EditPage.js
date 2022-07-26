@@ -17,7 +17,18 @@ import {
 } from "../redux/features/authentication/authenticationSlice";
 import { useAddFileMutation } from "../redux/api/sabycodeApi";
 import "../markers.css";
-import { setCurrentUsers, removeUser } from "../redux/features/users/usersSlice";
+import {
+  setCurrentUsers,
+  removeUser,
+} from "../redux/features/users/usersSlice";
+
+function* generateSequence(start, end, step) {
+  for (let i = start; i <= end; i += step) {
+    yield i;
+  }
+}
+
+const fontSizeOptions = [...generateSequence(12, 32, 2)];
 
 export default function EditPage(props) {
   const socket = useRef();
@@ -33,7 +44,6 @@ export default function EditPage(props) {
   const [markers, setMarkers] = useState({});
   const isClosedMeeting = useSelector(selectClosedMeeting);
   const color = useSelector(selectColor);
-
 
   useEffect(() => {
     const addFileAsync = async () => {
@@ -267,10 +277,9 @@ export default function EditPage(props) {
           id="fontSize"
           onChange={(event) => changeFontSize(event)}
         >
-          <option value="12">12</option>
-          <option value="14">14</option>
-          <option value="20">20</option>
-          <option value="25">30</option>
+          {fontSizeOptions.map((fontSize) => (
+            <option value={fontSize.toString()}>{fontSize}</option>
+          ))}
         </select>
         <select
           value={language}
