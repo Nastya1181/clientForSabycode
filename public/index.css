@@ -471,10 +471,20 @@ color: #FFFFFF;
     right: 10px;
 }
 .members__text{
-    padding-left: 5px;
+    padding-top: 8px;
+    padding-left: 4px;
     font-weight: 500;
     font-size: 16px;
     font-style: normal;
+}
+.members{
+    display: flex;
+}
+.circle__user{
+    border-radius: 50%;
+    border: solid black 1px;
+    width: 40px;
+    height: 40px;
 }
 .carousel-content.show-2 > * {
     width: 50%;
