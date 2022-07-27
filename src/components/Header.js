@@ -28,7 +28,7 @@ export default function Header() {
     if (location.pathname === "/log") {
       return (
         <div>
-          <CreateMeeting /> <Backmain />
+          <CreateMeeting /> {/* <Backmain /> */}
         </div>
       );
     }
