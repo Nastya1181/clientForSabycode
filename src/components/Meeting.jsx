@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import logo from '../img/delete.svg';
 import { useRemoveConnectionMutation } from "../redux/api/sabycodeApi";
 export default function Meeting(props) {
   const [removeConnection, {}] = useRemoveConnectionMutation();
+  const navigate = useNavigate();
   return (
     <tbody>
       <tr
