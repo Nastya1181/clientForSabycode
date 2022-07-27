@@ -75,7 +75,7 @@ export default function EditPage(props) {
   }, [isClosedMeeting]);
 
   useEffect(() => {
-    socket.current = new WebSocket("ws://localhost:5000/");
+    socket.current = new WebSocket(process.env.REACT_APP_WS_BASE_URL);
     socket.current.onopen = (event) => {
       socket.current.send(
         JSON.stringify({
