@@ -70,7 +70,7 @@ export default function EditPage(props) {
 
   useEffect(() => {
     if (isClosedMeeting) {
-      socket.current.send(JSON.stringify({ sessionId: id, event: "close" }));
+      socket.current?.send(JSON.stringify({ sessionId: id, event: "close" }));
     }
   }, [isClosedMeeting]);
 
