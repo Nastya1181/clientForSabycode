@@ -203,7 +203,7 @@ color: #FFFFFF;
     background: transparent;
     float: left;
     border-radius: 5px;
-    margin-top: 26px;
+    margin-top: 28px;
     color: #D93D3D;
     font-style: normal;
     font-weight: 500;
@@ -234,7 +234,7 @@ color: #FFFFFF;
 .select-fontSize {
     /* Селект-бар */
 /* Auto layout */
-    font-size: 12px;
+
     font-family: 'JetBrains Mono';
     color: #1E496B;
     gap: 10px;
@@ -266,7 +266,7 @@ color: #FFFFFF;
     top: 10px;
     right: 115px;
     border-radius: 5px;
-    font-size: 12px;
+
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 700;
@@ -417,7 +417,7 @@ color: #FFFFFF;
     
 }
 .carousel-container {
-    width: 460px;
+    width: 470px;
     display: flex;
     flex-direction: column;
     margin-left: 35px;
@@ -445,7 +445,6 @@ color: #FFFFFF;
     -ms-overflow-style: none; 
     scrollbar-width: none;  
 }
-
 .carousel-content::-webkit-scrollbar, .carousel-content::-webkit-scrollbar {
     display: none;
 }

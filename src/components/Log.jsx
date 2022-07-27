@@ -29,20 +29,31 @@ export default function Log(props) {
   return (
     <div className="app">
       <table className="table">
-      <h1 className="log__name">Журнал собраний</h1>
-      <tr className="container container__header"><td className="begin">ДАТА СОЗДАНИЯ</td>
-          <td className="edit">ДАТА ОКОНЧАНИЯ</td>
-          <td className="named__lang">ТЕХНОЛОГИЯ</td>
-          <td className="family">УЧАСТНИКИ</td></tr>
-      {sessions?.map(session => 
-        <Meeting key={session.file}
-          time={formatDate(new Date(session.birthtime))}
-          edited={formatDate(new Date(session.updatetime))}
-          prog={session.language}
-          name={session.users.join(', ')}
-          id={session.file}
-        />
-      )}
+        <tbody>
+          <tr>
+            <th>
+              <h1 className="log__name">Журнал собраний</h1>
+            </th>
+          </tr>
+        </tbody>
+        <tbody className="container container__header">
+          <tr>
+            <td className="begin">ДАТА СОЗДАНИЯ</td>
+            <td className="edit">ДАТА ОКОНЧАНИЯ</td>
+            <td className="named__lang">ТЕХНОЛОГИЯ</td>
+            <td className="family">УЧАСТНИКИ</td>
+          </tr>
+        </tbody>
+        {sessions?.map((session) => (
+          <Meeting
+            key={session.file}
+            time={formatDate(new Date(session.birthtime))}
+            edited={formatDate(new Date(session.updatetime))}
+            prog={session.language}
+            name={session.users.join(", ")}
+            id={session.file}
+          />
+        ))}
       </table>
     </div>
   );

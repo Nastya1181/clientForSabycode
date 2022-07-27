@@ -53,7 +53,6 @@ function App() {
         <Route  path='editor/:id' element={<RequireAuth required={name}><EditPage /></RequireAuth>}/>
         <Route  path='/log' element={<RequireAuth required={token}><Log /></RequireAuth>}/>
         <Route  path='*' element={<h1>Нет такой страницы</h1>}/>
-        <Route  path='/logg' element={<Log/>}/>
         </Route>
     </Routes>
 </Router>

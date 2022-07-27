@@ -1,7 +1,7 @@
 import { selectAccessToken, selectUserName } from "../redux/features/authentication/authenticationSlice";
 import { useSelector } from "react-redux/es/exports";
 import React, {  useState} from "react"
-import { Link , useLocation} from "react-router-dom";
+import { Link , useLocation, useParams, useSearchParams} from "react-router-dom";
 import LogOutButton from "./LogOutButton";
 import CloseButton from "./CloseButton";
 import Carousel from "./Carousel";
@@ -25,8 +25,45 @@ export default function Header() {
   function Location() {
     const location = useLocation();
     console.log(location);
-    if (location.pathname === "/log"){
-      return <div><CreateMeeting/> <Backmain/></div>
+    if (location.pathname === "/log") {
+      return (
+        <div>
+          <CreateMeeting /> <Backmain />
+        </div>
+      );
+    }
+  }
+ 
+  function Edit() {
+    const locat = useLocation();
+    console.log(locat);
+    let url = locat.pathname.split("/editor/");
+    let a = ("/editor/"+url[1]);
+    console.log(a);
+    if (locat.pathname === a){
+        return <div>
+          {userName && <Carousel show={3}>
+                    {currentUsers?.map(user =>
+                  <Member name={user.username} key={Date.now() + Math.random()} color={user.color}/>)}
+                  </Carousel>}
+                  {userName && (
+                   <>
+                      <button
+                    className="invite-button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(window.location);
+                      changeText("Скопировано")
+                    }}
+                    >
+                    <div className="invite-button__text">{buttonText}</div>
+                      </button>
+            <LogOutButton />
+          </>
+      )}
+      {/* {accessToken && <LogButton/>} */}
+      {accessToken && <CloseButton/>}
+      {accessToken &&  <Link  className="magazine__log" to='/log'>Журнал событий</Link>}
+     </div>
     }
   }
   return (
@@ -34,28 +71,8 @@ export default function Header() {
       <div className="header__logo__possion">
         <div className="header__logo"></div>
       </div>
+      <Edit/>
       <Location/>
-      {userName && <Carousel show={3}>
-        {currentUsers?.map(user =>
-          <Member name={user.username} key={Date.now() + Math.random()} color={user.color}/>)}
-      </Carousel>}
-      {userName && (
-        <>
-          <button
-            className="invite-button"
-            onClick={() => {
-              navigator.clipboard.writeText(window.location);
-              changeText("Скопировано")
-            }}
-          >
-            <div className="invite-button__text">{buttonText}</div>
-          </button>
-        <LogOutButton />
-        </>
-      )}
-      {/* {accessToken && <LogButton/>} */}
-       {accessToken && <CloseButton/>}
-       {accessToken &&  <Link  className="magazine__log" to='/log'>Журнал событий</Link>}
     </header>
   );
 }
