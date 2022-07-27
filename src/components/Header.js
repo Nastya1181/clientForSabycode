@@ -1,12 +1,14 @@
 import { selectAccessToken, selectUserName } from "../redux/features/authentication/authenticationSlice";
 import { useSelector } from "react-redux/es/exports";
-import React, {  useState } from "react"
-import { Link } from "react-router-dom";
+import React, {  useState} from "react"
+import { Link , useLocation} from "react-router-dom";
 import LogOutButton from "./LogOutButton";
 import CloseButton from "./CloseButton";
 import Carousel from "./Carousel";
 import Member from "./Member"
 import { selectCurrentUsers } from "../redux/features/users/usersSlice";
+import Backmain from "./Backmain";
+import CreateMeeting from "./CreateMeeting";
 
 export default function Header() {
   const userName = useSelector(selectUserName);
@@ -20,12 +22,19 @@ export default function Header() {
 
   const currentUsers = useSelector(selectCurrentUsers);
   console.log('cur', currentUsers);
- 
+  function Location() {
+    const location = useLocation();
+    console.log(location);
+    if (location.pathname === "/log"){
+      return <div><CreateMeeting/> <Backmain/></div>
+    }
+  }
   return (
     <header className="header">
       <div className="header__logo__possion">
         <div className="header__logo"></div>
       </div>
+      <Location/>
       {userName && <Carousel show={3}>
         {currentUsers?.map(user =>
           <Member name={user.username} key={Date.now() + Math.random()} color={user.color}/>)}
@@ -45,8 +54,8 @@ export default function Header() {
         </>
       )}
       {/* {accessToken && <LogButton/>} */}
-      {accessToken && <CloseButton/>}  
-      {accessToken &&  <Link  className="event__log" to='/log'>Журнал событий</Link>}
+       {accessToken && <CloseButton/>}
+       {accessToken &&  <Link  className="magazine__log" to='/log'>Журнал событий</Link>}
     </header>
   );
 }

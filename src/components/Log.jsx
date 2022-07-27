@@ -3,7 +3,6 @@ import Meeting from "./Meeting";
 import { useDispatch } from "react-redux";
 import { useGetConnectionsQuery } from "../redux/api/sabycodeApi";
 import { setIsUserConnected } from "../redux/features/authentication/authenticationSlice";
-
 export default function Log(props) {
   const { data: sessions, isLoading } = useGetConnectionsQuery();
   const dispatch = useDispatch();
@@ -26,6 +25,7 @@ export default function Log(props) {
     return dd + '.' + mm + '.' + yy + ' ' + zzzzz;
   }
   // Функция для парсинга даты как на макете, вроде должно работать 
+
   return (
     <div className="app">
       <table className="table">

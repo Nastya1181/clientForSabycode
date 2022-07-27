@@ -7,7 +7,7 @@ import GuestForm from './components/GuestForm';
 import Layout from './components/Layout';
 import RequireAuth from './components/RequireAuth';
 import { selectAccessToken, selectIsUserConnected, selectUserName } from './redux/features/authentication/authenticationSlice';
-// import Log from './components/Log'
+import Log from './components/Log'
 function App() {
   const name = useSelector(selectUserName);
   const token = useSelector(selectAccessToken);
@@ -51,8 +51,9 @@ function App() {
         <Route path='/guestLogin' element={<GuestForm />}></Route>
         <Route index element={<RequireAuth required={name}><Navigate to={`/editor/f${ (+new Date()).toString(16)}`}/></RequireAuth>}/>
         <Route  path='editor/:id' element={<RequireAuth required={name}><EditPage /></RequireAuth>}/>
-        {/* <Route  path='/log' element={<RequireAuth required={token}><Log /></RequireAuth>}/> */}
+        <Route  path='/log' element={<RequireAuth required={token}><Log /></RequireAuth>}/>
         <Route  path='*' element={<h1>Нет такой страницы</h1>}/>
+        <Route  path='/logg' element={<Log/>}/>
         </Route>
     </Routes>
 </Router>
